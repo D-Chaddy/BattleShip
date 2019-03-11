@@ -84,3 +84,14 @@ vector<vector<int>> *Ship::getLocation()
 {
     return &location;
 }
+
+string Ship::getName()
+{
+    return name;
+}
+
+int Ship::getLength()
+{
+    return length;
+}
+

@@ -26,11 +26,15 @@ private:
     void setLocation();
 
 public:
+    //Constructor and deconstructor
     Ship(string shipName, int shipLength, int row, int column, bool isLeftRight);
     Ship(string shipName, int shipLength);
     virtual ~Ship();
+
     vector<vector<int>> *getLocation();
     void setLocation(int shipRow, int shipColumn, bool isLeftRight);
+    string getName();
+    int getLength();
 
 };
 

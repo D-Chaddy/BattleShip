@@ -31,20 +31,22 @@ Ship yourDestroyer("Destroyer", 2);
 int main()
 {
 
-    string locationTemp;
-    bool rightLeftTemp;
+    printBoard(&yourBoard);
 
-    cout << "Location of Aircraft Carrier (5 spaces): ";
-    cin >> locationTemp;
-    cout << "0 for up and down. 1 for left and right: ";
-    cin >> rightLeftTemp;
-    yourAircraftCarrier.setLocation(getInput(locationTemp)[0], getInput(locationTemp)[1], rightLeftTemp);
+    placeShip(&yourAircraftCarrier);
+    printBoard(&yourBoard);
 
-    cout << "Location of Battle Ship (4 spaces): ";
-    cout << "Location of Submarine (3 spaces): ";
-    cout << "Location of Cruiser (3 spaces): ";
-    cout << "Location pf Destroyer (2 spaces): ";
+    placeShip(&yourBattleShip);
+    printBoard(&yourBoard);
 
+    placeShip(&yourSubmarine);
+    printBoard(&yourBoard);
+
+    placeShip(&yourCruiser);
+    printBoard(&yourBoard);
+
+    placeShip(&yourDestroyer);
+    printBoard(&yourBoard);
 
     while(true)
     {
@@ -61,7 +63,7 @@ int main()
         }
 
         printBoard(&theirBoard);
-        printBoard(&yourBoard);;
+        printBoard(&yourBoard);
 
         string input;
         cout << "Enter location: ";
@@ -127,6 +129,30 @@ void putValue(vector<vector<char>> *board, int row, int column, char value)
 }
 
 bool validInput(int row, int column)
+
 {
     return (row < rows && row >= 0) &&  (column < columns && column >= 0);
+}
+
+void placeShip(Ship *ship)
+{
+    string locationTemp;
+    bool rightLeftTemp;
+
+    cout << "Location of " << ship->getName() << " (" << ship ->getLength() << " spaces): ";
+    cin >> locationTemp;
+    cout << "0 for up and down. 1 for left and right: ";
+    cin >> rightLeftTemp;
+
+    ship->setLocation(getInput(locationTemp)[0], getInput(locationTemp)[1], rightLeftTemp);
+
+    printShip(ship);
+}
+
+void printShip(Ship *ship)
+{
+    for(unsigned int i = 0; i < ship->getLocation()->size(); i++)
+    {
+        putValue(&yourBoard, ship->getLocation()->at(i).at(0), ship->getLocation()->at(i).at(1), '#');
+    }
 }
