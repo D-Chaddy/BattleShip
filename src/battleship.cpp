@@ -22,14 +22,27 @@ vector<vector<char>> theirBoard(rows, vector<char> (columns, 'O'));
 vector<Ship> yourShips;
 vector<Ship> theirShips;
 
+Ship tempShip("Temp Ship", 3, 1, 1, false);
+
 int main()
 {
 
     while(true)
     {
 
+
+
+        for(unsigned int i = 0; i < tempShip.getLocation()->size(); i++)
+        {
+            putValue(&yourBoard, tempShip.getLocation()->at(i).at(0), tempShip.getLocation()->at(i).at(1), 'T');
+        }
+
         printBoard(&theirBoard);
         printBoard(&yourBoard);
+
+        //cout << tempShip.getLocation()->at(0).at(0) << tempShip.getLocation()->at(0).at(1);
+        //cout << tempShip.getLocation()->at(0).at(1);
+
         string input;
         cout << "Enter location: ";
         cin >> input;
