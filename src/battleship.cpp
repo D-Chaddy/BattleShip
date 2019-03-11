@@ -9,6 +9,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "Ship.h"
 
 using namespace std;
 
@@ -17,6 +18,9 @@ int columns = 10;
 
 vector<vector<char>> yourBoard(rows, vector<char> (columns, 'O'));
 vector<vector<char>> theirBoard(rows, vector<char> (columns, 'O'));
+
+vector<Ship> yourShips;
+vector<Ship> theirShips;
 
 int main()
 {
