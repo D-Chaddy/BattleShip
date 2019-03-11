@@ -10,9 +10,6 @@
 
 using namespace std;
 
-
-
-
 Ship::Ship(string shipName, int shipLength, int shipRow, int shipColumn, bool isLeftRight)
 {
     name = shipName;
@@ -20,13 +17,29 @@ Ship::Ship(string shipName, int shipLength, int shipRow, int shipColumn, bool is
     row = shipRow;
     column = shipColumn;
 
-//    for(int i = 0; i < length; i++){
-//        hits.push_back(false);
-//    }
+    for(int i = 0; i < length; i++){
+        hits.push_back(false);
+    }
 
     leftRight = isLeftRight;
 
-    setLoction();
+    setLocation();
+
+}
+
+Ship::Ship(string shipName, int shipLength)
+{
+    name = shipName;
+    length = shipLength;
+    row = 11;
+    column = 11;
+    leftRight = false;
+
+    for(int i = 0; i < length; i++){
+        hits.push_back(false);
+    }
+
+
 
 }
 
@@ -35,7 +48,7 @@ Ship::~Ship()
     // TODO Auto-generated destructor stub
 }
 
-void Ship::setLoction()
+void Ship::setLocation()
 {
 
     if(leftRight)
@@ -57,6 +70,14 @@ void Ship::setLoction()
 
 
 
+}
+
+void Ship::setLocation(int shipRow, int shipColumn, bool isLeftRight)
+{
+    row = shipRow;
+    column = shipColumn;
+    leftRight = isLeftRight;
+    setLocation();
 }
 
 vector<vector<int>> *Ship::getLocation()

@@ -16,5 +16,6 @@ using namespace std;
 void printBoard(vector<vector<char>> *board);
 void putValue(vector<vector<char>> *board, int row, int column, char value);
 bool validInput(int row, int column);
+vector<int> getInput(string input);
 
 #endif /* SRC_BATTLESHIP_H_ */

@@ -22,37 +22,63 @@ vector<vector<char>> theirBoard(rows, vector<char> (columns, 'O'));
 vector<Ship> yourShips;
 vector<Ship> theirShips;
 
-Ship tempShip("Temp Ship", 3, 1, 1, false);
+Ship yourAircraftCarrier("Aircraft Carrier", 5);
+Ship yourBattleShip("Battle Ship", 4);
+Ship yourSubmarine("Submarine", 3);
+Ship yourCruiser("Cruiser", 3);
+Ship yourDestroyer("Destroyer", 2);
 
 int main()
 {
+
+    string locationTemp;
+    bool rightLeftTemp;
+
+    cout << "Location of Aircraft Carrier (5 spaces): ";
+    cin >> locationTemp;
+    cout << "0 for up and down. 1 for left and right: ";
+    cin >> rightLeftTemp;
+    yourAircraftCarrier.setLocation(getInput(locationTemp)[0], getInput(locationTemp)[1], rightLeftTemp);
+
+    cout << "Location of Battle Ship (4 spaces): ";
+    cout << "Location of Submarine (3 spaces): ";
+    cout << "Location of Cruiser (3 spaces): ";
+    cout << "Location pf Destroyer (2 spaces): ";
+
 
     while(true)
     {
 
 
 
-        for(unsigned int i = 0; i < tempShip.getLocation()->size(); i++)
+
+
+        //tempShip.setLocation(1, 1);
+
+        for(unsigned int i = 0; i < yourAircraftCarrier.getLocation()->size(); i++)
         {
-            putValue(&yourBoard, tempShip.getLocation()->at(i).at(0), tempShip.getLocation()->at(i).at(1), 'T');
+            putValue(&yourBoard, yourAircraftCarrier.getLocation()->at(i).at(0), yourAircraftCarrier.getLocation()->at(i).at(1), '#');
         }
 
         printBoard(&theirBoard);
-        printBoard(&yourBoard);
-
-        //cout << tempShip.getLocation()->at(0).at(0) << tempShip.getLocation()->at(0).at(1);
-        //cout << tempShip.getLocation()->at(0).at(1);
+        printBoard(&yourBoard);;
 
         string input;
         cout << "Enter location: ";
         cin >> input;
         cout << endl;
-        putValue(&theirBoard, input[0] - 'A', atoi(input.substr(1).c_str()) - 1, '*');
+        putValue(&theirBoard, getInput(input)[0], getInput(input)[1], '*');
 
     }
 
     return 0;
 
+}
+
+vector<int> getInput(string input)
+{
+    vector<int> temp{input[0] - 'A', atoi(input.substr(1).c_str()) - 1};
+    return temp;
 }
 
 void printBoard(vector<vector<char>> *board)
