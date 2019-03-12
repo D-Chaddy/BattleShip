@@ -18,8 +18,6 @@ class Ship {
 private:
     string name;
     int length;
-    int row;
-    int column;
     vector<bool> hits;
     vector<vector<int>> location;
     bool leftRight;
@@ -35,6 +33,7 @@ public:
     void setLocation(int shipRow, int shipColumn, bool isLeftRight);
     string getName();
     int getLength();
+    bool getInited();
 
 };
 

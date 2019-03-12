@@ -20,5 +20,6 @@ bool validInput(int row, int column);
 vector<int> getInput(string input);
 void printShip(Ship *ship);
 void placeShip(Ship *ship);
+void printOptions(Ship *aircraftCarrier, Ship *battleShip, Ship *submarine, Ship *cruiser, Ship *destroyer);
 
 #endif /* SRC_BATTLESHIP_H_ */

@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 #include "Ship.h"
+#include <conio.h>
 
 using namespace std;
 
@@ -18,9 +19,6 @@ int columns = 10;
 
 vector<vector<char>> yourBoard(rows, vector<char> (columns, 'O'));
 vector<vector<char>> theirBoard(rows, vector<char> (columns, 'O'));
-
-vector<Ship> yourShips;
-vector<Ship> theirShips;
 
 Ship yourAircraftCarrier("Aircraft Carrier", 5);
 Ship yourBattleShip("Battle Ship", 4);
@@ -31,31 +29,43 @@ Ship yourDestroyer("Destroyer", 2);
 int main()
 {
 
-    printBoard(&yourBoard);
+    while(!yourAircraftCarrier.getInited() ||
+          !yourBattleShip.getInited() ||
+          !yourSubmarine.getInited() ||
+          !yourCruiser.getInited() ||
+          !yourDestroyer.getInited())
+    {
 
-    placeShip(&yourAircraftCarrier);
-    printBoard(&yourBoard);
+        printBoard(&yourBoard);
 
-    placeShip(&yourBattleShip);
-    printBoard(&yourBoard);
+        int input;
+        printOptions(&yourAircraftCarrier, &yourBattleShip, &yourSubmarine, &yourCruiser, &yourDestroyer);
+        cin >> input;
+        switch(input)
+        {
+            case 1:
+                placeShip(&yourAircraftCarrier);
+                break;
+            case 2:
+                placeShip(&yourBattleShip);
+                break;
+            case 3:
+                placeShip(&yourSubmarine);
+                break;
+            case 4:
+                placeShip(&yourCruiser);
+                break;
+            case 5:
+                placeShip(&yourDestroyer);
+                break;
+        }
 
-    placeShip(&yourSubmarine);
-    printBoard(&yourBoard);
+    }
 
-    placeShip(&yourCruiser);
-    printBoard(&yourBoard);
 
-    placeShip(&yourDestroyer);
-    printBoard(&yourBoard);
 
     while(true)
     {
-
-
-
-
-
-        //tempShip.setLocation(1, 1);
 
         for(unsigned int i = 0; i < yourAircraftCarrier.getLocation()->size(); i++)
         {
@@ -115,6 +125,18 @@ void printBoard(vector<vector<char>> *board)
 
 }
 
+void printOptions(Ship *aircraftCarrier, Ship *battleShip, Ship *submarine, Ship *cruiser, Ship *destroyer)
+{
+
+    cout << "1) " << aircraftCarrier->getName() << " (" << aircraftCarrier->getLength() << " spaces)"<< endl;
+    cout << "2) " << battleShip->getName() << " (" << battleShip->getLength() << " spaces)"<<  endl;
+    cout << "3) " << submarine->getName() << " (" << submarine->getLength() << " spaces)"<<  endl;
+    cout << "4) " << cruiser->getName() << " (" << cruiser->getLength() << " spaces)"<<  endl;
+    cout << "5) " << destroyer->getName() << " (" << destroyer->getLength() << " spaces)"<<  endl;
+    cout << "Ship to place: ";
+
+}
+
 void putValue(vector<vector<char>> *board, int row, int column, char value)
 {
     if(validInput(row, column))
@@ -139,7 +161,7 @@ void placeShip(Ship *ship)
     string locationTemp;
     bool rightLeftTemp;
 
-    cout << "Location of " << ship->getName() << " (" << ship ->getLength() << " spaces): ";
+    cout << "Location of " << ship->getName() << " (" << ship->getLength() << " spaces): ";
     cin >> locationTemp;
     cout << "0 for up and down. 1 for left and right: ";
     cin >> rightLeftTemp;
