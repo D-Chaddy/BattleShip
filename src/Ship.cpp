@@ -12,7 +12,6 @@ using namespace std;
 
 int row;
 int column;
-bool inited = false;
 
 Ship::Ship(string shipName, int shipLength, int shipRow, int shipColumn, bool isLeftRight)
 {
@@ -103,3 +102,13 @@ bool Ship::getInited()
     return inited;
 }
 
+void Ship::setInited(bool value)
+{
+    inited = value;
+
+    if(inited == false)
+    {
+        location.clear();
+    }
+
+}

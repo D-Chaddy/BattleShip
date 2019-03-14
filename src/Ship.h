@@ -22,6 +22,7 @@ private:
     vector<vector<int>> location;
     bool leftRight;
     void setLocation();
+    bool inited = false;
 
 public:
     //Constructor and deconstructor
@@ -34,6 +35,7 @@ public:
     string getName();
     int getLength();
     bool getInited();
+    void setInited(bool value);
 
 };
 

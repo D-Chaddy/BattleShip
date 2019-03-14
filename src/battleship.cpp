@@ -26,6 +26,8 @@ Ship yourSubmarine("Submarine", 3);
 Ship yourCruiser("Cruiser", 3);
 Ship yourDestroyer("Destroyer", 2);
 
+vector<Ship*> ships{&yourAircraftCarrier, &yourBattleShip, &yourSubmarine, &yourCruiser, &yourDestroyer};
+
 int main()
 {
 
@@ -168,13 +170,35 @@ void placeShip(Ship *ship)
 
     ship->setLocation(getInput(locationTemp)[0], getInput(locationTemp)[1], rightLeftTemp);
 
+    for(Ship *tempShip : ships)
+    {
+        for(unsigned int i = 0; i < tempShip->getLocation()->size(); i++)
+        {
+            for(unsigned int j = 0; j < ship->getLocation()->size(); j++)
+            {
+
+                if(tempShip->getLocation()->at(i).at(0) == ship->getLocation()->at(j).at(0) && tempShip->getLocation()->at(i).at(1) == ship->getLocation()->at(j).at(1) && tempShip->getName().compare(ship->getName()) != 0)
+                {
+                    cout << "CANNOT OVERLAP SHIPS!" << endl;
+                    ship->setInited(false);
+                }
+            }
+        }
+    }
+
     printShip(ship);
+
 }
 
 void printShip(Ship *ship)
 {
-    for(unsigned int i = 0; i < ship->getLocation()->size(); i++)
+    if(ship->getInited())
     {
-        putValue(&yourBoard, ship->getLocation()->at(i).at(0), ship->getLocation()->at(i).at(1), '#');
+
+        for(unsigned int i = 0; i < ship->getLocation()->size(); i++)
+        {
+            putValue(&yourBoard, ship->getLocation()->at(i).at(0), ship->getLocation()->at(i).at(1), '#');
+        }
     }
+
 }
