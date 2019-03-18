@@ -36,7 +36,6 @@ public:
     int getLength();
     bool getInited();
     void setInited(bool value);
-
 };
 
 #endif /* SRC_SHIP_H_ */

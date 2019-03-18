@@ -75,6 +75,7 @@ void Ship::setLocation()
 
 void Ship::setLocation(int shipRow, int shipColumn, bool isLeftRight)
 {
+    location.clear();
     row = shipRow;
     column = shipColumn;
     leftRight = isLeftRight;
@@ -112,3 +113,4 @@ void Ship::setInited(bool value)
     }
 
 }
+
