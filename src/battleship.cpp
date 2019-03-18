@@ -10,6 +10,9 @@
 #include <vector>
 #include <string>
 #include "Ship.h"
+#include <limits>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -19,48 +22,150 @@ int columns = 10;
 vector<vector<char>> yourBoard(rows, vector<char> (columns, 'O'));
 vector<vector<char>> theirBoard(rows, vector<char> (columns, 'O'));
 
-vector<Ship> yourShips;
-vector<Ship> theirShips;
-
 Ship yourAircraftCarrier("Aircraft Carrier", 5);
 Ship yourBattleShip("Battle Ship", 4);
 Ship yourSubmarine("Submarine", 3);
 Ship yourCruiser("Cruiser", 3);
 Ship yourDestroyer("Destroyer", 2);
 
+Ship theirAircraftCarrier("Aircraft Carrier", 5);
+Ship theirBattleShip("Battle Ship", 4);
+Ship theirSubmarine("Submarine", 3);
+Ship theirCruiser("Cruiser", 3);
+Ship theirDestroyer("Destroyer", 2);
+
+vector<Ship*> yourShips{&yourAircraftCarrier, &yourBattleShip, &yourSubmarine, &yourCruiser, &yourDestroyer};
+vector<Ship*> theirShips{&theirAircraftCarrier, &theirBattleShip, &theirSubmarine, &theirCruiser, &theirDestroyer};
+
 int main()
 {
 
-    printBoard(&yourBoard);
+    srand(time(NULL));
 
-    placeShip(&yourAircraftCarrier);
-    printBoard(&yourBoard);
+    int rand();
 
-    placeShip(&yourBattleShip);
-    printBoard(&yourBoard);
+    cout << "Select where to place your ships" << endl;
 
-    placeShip(&yourSubmarine);
-    printBoard(&yourBoard);
+    while(!yourAircraftCarrier.getInited() ||
+          !yourBattleShip.getInited() ||
+          !yourSubmarine.getInited() ||
+          !yourCruiser.getInited() ||
+          !yourDestroyer.getInited())
+    {
 
-    placeShip(&yourCruiser);
-    printBoard(&yourBoard);
+        printBoard(&yourBoard);
 
-    placeShip(&yourDestroyer);
-    printBoard(&yourBoard);
+        unsigned int input;
+        printOptions(&yourShips);
+
+        cin >> input;
+
+        if(cin.fail()){
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+        }
+
+        if(input > 0 && input <= yourShips.size())
+        {
+            switch(input)
+            {
+                case 1:
+                    placeShip(&yourShips, 0);
+                    break;
+                case 2:
+                    placeShip(&yourShips, 1);
+                    break;
+                case 3:
+                    placeShip(&yourShips, 2);
+                    break;
+                case 4:
+                    placeShip(&yourShips, 3);
+                    break;
+                case 5:
+                    placeShip(&yourShips, 4);
+                    break;
+            }
+
+        }
+        else
+        {
+            cout << endl << "NOT A VALID SHIP" << endl;
+        }
+
+
+
+    }
+
+    while(!theirAircraftCarrier.getInited() ||
+          !theirBattleShip.getInited() ||
+          !theirSubmarine.getInited() ||
+          !theirCruiser.getInited() ||
+          !theirDestroyer.getInited())
+   {
+
+        string tempLocation;
+        int tempDirection;
+
+        if(!theirAircraftCarrier.getInited())
+        {
+            tempLocation.clear();
+            tempLocation += static_cast<char>((rand() % 10) + 'A');
+            tempLocation += to_string((rand() % 10) + 1);
+
+            tempDirection = (rand() % 2);
+
+            placeShipComp(&theirShips, 0, tempLocation, tempDirection);
+        }
+
+        if(!theirBattleShip.getInited())
+        {
+            tempLocation.clear();
+            tempLocation += static_cast<char>((rand() % 10) + 'A');
+            tempLocation += to_string((rand() % 10) + 1);
+
+            tempDirection = (rand() % 2);
+
+            placeShipComp(&theirShips, 1, tempLocation, tempDirection);
+        }
+
+        if(!theirSubmarine.getInited())
+        {
+            tempLocation.clear();
+            tempLocation += static_cast<char>((rand() % 10) + 'A');
+            tempLocation += to_string((rand() % 10) + 1);
+
+            tempDirection = (rand() % 2);
+
+            placeShipComp(&theirShips, 2, tempLocation, tempDirection);
+        }
+
+        if(!theirCruiser.getInited())
+        {
+            tempLocation.clear();
+            tempLocation += static_cast<char>((rand() % 10) + 'A');
+            tempLocation += to_string((rand() % 10) + 1);
+
+            tempDirection = (rand() % 2);
+
+            placeShipComp(&theirShips, 3, tempLocation, tempDirection);
+        }
+
+        if(!theirDestroyer.getInited())
+        {
+            tempLocation.clear();
+            tempLocation += static_cast<char>((rand() % 10) + 'A');
+            tempLocation += to_string((rand() % 10) + 1);
+
+            tempDirection = (rand() % 2);
+
+            placeShipComp(&theirShips, 4, tempLocation, tempDirection);
+        }
+
+   }
+
 
     while(true)
     {
-
-
-
-
-
-        //tempShip.setLocation(1, 1);
-
-        for(unsigned int i = 0; i < yourAircraftCarrier.getLocation()->size(); i++)
-        {
-            putValue(&yourBoard, yourAircraftCarrier.getLocation()->at(i).at(0), yourAircraftCarrier.getLocation()->at(i).at(1), '#');
-        }
 
         printBoard(&theirBoard);
         printBoard(&yourBoard);
@@ -115,6 +220,18 @@ void printBoard(vector<vector<char>> *board)
 
 }
 
+void printOptions(vector<Ship*> *ships)
+{
+
+    for(unsigned int i = 0; i < ships->size(); i++)
+    {
+        cout << (ships->at(i)->getInited() ? "X" : "O") << " " << (i + 1) << ") " << ships->at(i)->getName() << " (" << ships->at(i)->getLength() << " spaces)"<< endl;
+    }
+
+    cout << "Ship to place: ";
+
+}
+
 void putValue(vector<vector<char>> *board, int row, int column, char value)
 {
     if(validInput(row, column))
@@ -134,25 +251,87 @@ bool validInput(int row, int column)
     return (row < rows && row >= 0) &&  (column < columns && column >= 0);
 }
 
-void placeShip(Ship *ship)
+void placeShip(vector<Ship*> *ships, int index)
 {
     string locationTemp;
     bool rightLeftTemp;
 
-    cout << "Location of " << ship->getName() << " (" << ship ->getLength() << " spaces): ";
+    cout << "Location of " << ships->at(index)->getName() << " (" << ships->at(index)->getLength() << " spaces): ";
     cin >> locationTemp;
     cout << "0 for up and down. 1 for left and right: ";
     cin >> rightLeftTemp;
+    cout << endl;
 
-    ship->setLocation(getInput(locationTemp)[0], getInput(locationTemp)[1], rightLeftTemp);
+    ships->at(index)->setLocation(getInput(locationTemp)[0], getInput(locationTemp)[1], rightLeftTemp);
 
-    printShip(ship);
+    for(Ship *tempShip : *ships)
+    {
+        for(unsigned int i = 0; i < tempShip->getLocation()->size(); i++)
+        {
+            for(unsigned int j = 0; j < ships->at(index)->getLocation()->size(); j++)
+            {
+
+                if(tempShip->getLocation()->at(i).at(0) == ships->at(index)->getLocation()->at(j).at(0) && tempShip->getLocation()->at(i).at(1) == ships->at(index)->getLocation()->at(j).at(1) && tempShip->getName().compare(ships->at(index)->getName()) != 0)
+                {
+                    cout << "CANNOT OVERLAP SHIPS!" << endl;
+                    ships->at(index)->setInited(false);
+                }
+
+                if(tempShip->getLocation()->at(i).at(0) < 0  || tempShip->getLocation()->at(i).at(1) < 0 || tempShip->getLocation()->at(i).at(0) >= rows || tempShip->getLocation()->at(i).at(1) >= columns)
+                {
+                    cout << "SHIP CANNOT GO OUT OF BOUNDS" << endl;
+                    ships->at(index)->setInited(false);
+                }
+
+            }
+        }
+    }
+
+    printShips(&yourBoard, ships);
+
 }
 
-void printShip(Ship *ship)
+void placeShipComp(vector<Ship*> *ships, int index, string location, bool rightLeft)
 {
-    for(unsigned int i = 0; i < ship->getLocation()->size(); i++)
+
+    ships->at(index)->setLocation(getInput(location)[0], getInput(location)[1], rightLeft);
+
+    for(Ship *tempShip : *ships)
     {
-        putValue(&yourBoard, ship->getLocation()->at(i).at(0), ship->getLocation()->at(i).at(1), '#');
+        for(unsigned int i = 0; i < tempShip->getLocation()->size(); i++)
+        {
+            for(unsigned int j = 0; j < ships->at(index)->getLocation()->size(); j++)
+            {
+
+                if(tempShip->getLocation()->at(i).at(0) == ships->at(index)->getLocation()->at(j).at(0) && tempShip->getLocation()->at(i).at(1) == ships->at(index)->getLocation()->at(j).at(1) && tempShip->getName().compare(ships->at(index)->getName()) != 0)
+                {
+                    ships->at(index)->setInited(false);
+                }
+
+                if(tempShip->getLocation()->at(i).at(0) < 0  || tempShip->getLocation()->at(i).at(1) < 0 || tempShip->getLocation()->at(i).at(0) >= rows || tempShip->getLocation()->at(i).at(1) >= columns)
+                {
+                    ships->at(index)->setInited(false);
+                }
+
+            }
+        }
+    }
+
+    printShips(&theirBoard, ships);
+
+}
+
+void printShips(vector<vector<char>> *board, vector<Ship*> *ships)
+{
+
+    for(unsigned int ship = 0; ship < ships->size(); ship++)
+    {
+        if(ships->at(ship)->getInited())
+        {
+            for(unsigned int i = 0; i < ships->at(ship)->getLocation()->size(); i++)
+            {
+                putValue(board, ships->at(ship)->getLocation()->at(i).at(0), ships->at(ship)->getLocation()->at(i).at(1), '#');
+            }
+        }
     }
 }

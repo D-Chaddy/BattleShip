@@ -18,12 +18,11 @@ class Ship {
 private:
     string name;
     int length;
-    int row;
-    int column;
     vector<bool> hits;
     vector<vector<int>> location;
     bool leftRight;
     void setLocation();
+    bool inited = false;
 
 public:
     //Constructor and deconstructor
@@ -35,7 +34,8 @@ public:
     void setLocation(int shipRow, int shipColumn, bool isLeftRight);
     string getName();
     int getLength();
-
+    bool getInited();
+    void setInited(bool value);
 };
 
 #endif /* SRC_SHIP_H_ */

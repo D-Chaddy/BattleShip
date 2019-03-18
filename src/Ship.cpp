@@ -10,6 +10,9 @@
 
 using namespace std;
 
+int row;
+int column;
+
 Ship::Ship(string shipName, int shipLength, int shipRow, int shipColumn, bool isLeftRight)
 {
     name = shipName;
@@ -31,8 +34,6 @@ Ship::Ship(string shipName, int shipLength)
 {
     name = shipName;
     length = shipLength;
-    row = 11;
-    column = 11;
     leftRight = false;
 
     for(int i = 0; i < length; i++){
@@ -74,10 +75,12 @@ void Ship::setLocation()
 
 void Ship::setLocation(int shipRow, int shipColumn, bool isLeftRight)
 {
+    location.clear();
     row = shipRow;
     column = shipColumn;
     leftRight = isLeftRight;
     setLocation();
+    inited = true;
 }
 
 vector<vector<int>> *Ship::getLocation()
@@ -93,5 +96,21 @@ string Ship::getName()
 int Ship::getLength()
 {
     return length;
+}
+
+bool Ship::getInited()
+{
+    return inited;
+}
+
+void Ship::setInited(bool value)
+{
+    inited = value;
+
+    if(inited == false)
+    {
+        location.clear();
+    }
+
 }
 
