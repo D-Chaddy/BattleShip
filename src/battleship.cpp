@@ -40,9 +40,7 @@ vector<Ship*> theirShips{&theirAircraftCarrier, &theirBattleShip, &theirSubmarin
 int main()
 {
 
-    srand(time(NULL));
 
-    int rand();
 
     cout << "Select where to place your ships" << endl;
 
@@ -101,10 +99,12 @@ int main()
           !theirSubmarine.getInited() ||
           !theirCruiser.getInited() ||
           !theirDestroyer.getInited())
-   {
+    {
 
         string tempLocation;
         int tempDirection;
+        srand(time(NULL));
+        int rand();
 
         if(!theirAircraftCarrier.getInited())
         {
@@ -164,7 +164,7 @@ int main()
    }
 
 
-    while(true)
+    while(!gameOver(&yourShips, & theirShips))
     {
 
         printBoard(&theirBoard);
@@ -174,7 +174,9 @@ int main()
         cout << "Enter location: ";
         cin >> input;
         cout << endl;
-        putValue(&theirBoard, getInput(input)[0], getInput(input)[1], '*');
+        cout << "You fired at " + input + ": ";
+        fire(&theirBoard, &theirShips, getInput(input)[0], getInput(input)[1]);
+        compFire(&yourBoard);
 
     }
 
@@ -229,6 +231,44 @@ void printOptions(vector<Ship*> *ships)
     }
 
     cout << "Ship to place: ";
+
+}
+
+void fire(vector<vector<char>> *board, vector<Ship*> *ships, int row, int column)
+{
+
+    bool hit = false;
+
+    if(validInput(row, column))
+    {
+        for(unsigned int i = 0; i < ships->size(); i++)
+        {
+            for(unsigned int j = 0; j < ships->at(i)->getLocation()->size(); j++)
+            {
+                if(row == ships->at(i)->getLocation()->at(j).at(0) && column == ships->at(i)->getLocation()->at(j).at(1))
+                {
+                    ships->at(i)->setHits(row, column, true, j);
+                    cout << "HIT" << endl;
+                    putValue(board, row, column, 'X');
+                    hit = true;
+                    if(ships->at(i)->isSunk())
+                    {
+                        cout << "Sunk " + ships->at(i)->getName() << endl;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        cout << "INVALID CHOICE" << endl;
+    }
+
+    if(!hit)
+    {
+        putValue(board, row, column, '*');
+        cout << "MISS" << endl;
+    }
 
 }
 
@@ -317,8 +357,6 @@ void placeShipComp(vector<Ship*> *ships, int index, string location, bool rightL
         }
     }
 
-    printShips(&theirBoard, ships);
-
 }
 
 void printShips(vector<vector<char>> *board, vector<Ship*> *ships)
@@ -334,4 +372,74 @@ void printShips(vector<vector<char>> *board, vector<Ship*> *ships)
             }
         }
     }
+}
+
+bool gameOver(vector<Ship*> *yourShips, vector<Ship*> *theirShips)
+{
+
+    bool youLose = true;
+    bool theyLose = true;
+
+    for(unsigned int i = 0; i < yourShips->size(); i++)
+    {
+        if(!yourShips->at(i)->isSunk())
+        {
+            youLose = false;
+        }
+    }
+
+    for(unsigned int i = 0; i < theirShips->size(); i++)
+    {
+        if(!theirShips->at(i)->isSunk())
+        {
+            theyLose = false;
+        }
+    }
+
+    if(youLose)
+    {
+        cout << "You lose" << endl;
+        return true;
+    }
+    else if(theyLose)
+    {
+        cout << "You win!" << endl;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+}
+
+void compFire(vector<vector<char>> *board)
+{
+
+    string tempLocation = "";
+    int tempDirection = -1;
+    srand(time(NULL));
+    int rand();
+
+
+    while(tempLocation.compare("") == 0 || tempDirection == -1)
+    {
+        tempLocation += static_cast<char>((rand() % 10) + 'A');
+        tempLocation += to_string((rand() % 10) + 1);
+        tempDirection = (rand() % 2);
+
+        if(board->at(getInput(tempLocation)[0]).at(getInput(tempLocation)[1]) == '#' ||
+           board->at(getInput(tempLocation)[0]).at(getInput(tempLocation)[1]) == 'O')
+        {
+            cout << "They fired at " + tempLocation + ": ";
+            fire(&yourBoard, &yourShips, getInput(tempLocation)[0], getInput(tempLocation)[1]);
+        }
+        else
+        {
+            tempLocation = "";
+            tempDirection = -1;
+        }
+
+    }
+
 }

@@ -22,5 +22,8 @@ void printShips(vector<vector<char>> *board, vector<Ship*> *ships);
 void placeShip(vector<Ship*> *ships, int index);
 void printOptions(vector<Ship*> *ships);
 void placeShipComp(vector<Ship*> *ships, int index, string location, bool rightLeft);
+void fire(vector<vector<char>> *board, vector<Ship*> *ships, int row, int column);
+bool gameOver(vector<Ship*> *yourShips, vector<Ship*> *theirShips);
+void compFire(vector<vector<char>> *board);
 
 #endif /* SRC_BATTLESHIP_H_ */
