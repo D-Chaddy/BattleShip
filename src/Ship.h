@@ -36,6 +36,9 @@ public:
     int getLength();
     bool getInited();
     void setInited(bool value);
+    void setHits(int row, int column, bool value, int shipIndex);
+    bool isSunk();
+
 };
 
 #endif /* SRC_SHIP_H_ */

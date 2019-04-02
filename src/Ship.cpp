@@ -114,3 +114,21 @@ void Ship::setInited(bool value)
 
 }
 
+void Ship::setHits(int row, int column, bool value, int shipIndex)
+{
+    hits[shipIndex] = true;
+}
+
+bool Ship::isSunk()
+{
+    for(bool hit : hits)
+    {
+        if(!hit)
+        {
+            return false;
+        }
+    }
+
+    return true;
+
+}
