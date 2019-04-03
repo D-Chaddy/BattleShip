@@ -44,11 +44,7 @@ int main()
 
     cout << "Select where to place your ships" << endl;
 
-    while(!yourAircraftCarrier.getInited() ||
-          !yourBattleShip.getInited() ||
-          !yourSubmarine.getInited() ||
-          !yourCruiser.getInited() ||
-          !yourDestroyer.getInited())
+    while(!shipsInit(&yourShips))
     {
 
         printBoard(&yourBoard);
@@ -94,11 +90,7 @@ int main()
 
     }
 
-    while(!theirAircraftCarrier.getInited() ||
-          !theirBattleShip.getInited() ||
-          !theirSubmarine.getInited() ||
-          !theirCruiser.getInited() ||
-          !theirDestroyer.getInited())
+    while(!shipsInit(&theirShips))
     {
 
         string tempLocation;
@@ -361,6 +353,13 @@ void placeShipComp(vector<Ship*> *ships, int index, string location, bool rightL
 
 void printShips(vector<vector<char>> *board, vector<Ship*> *ships)
 {
+    for(unsigned int row = 0; row < rows; row++)
+    {
+	for(unsigned int column = 0; column < columns; column++)
+	{
+	    putValue(board, row, column, 'O');
+	}
+    }
 
     for(unsigned int ship = 0; ship < ships->size(); ship++)
     {
@@ -441,5 +440,23 @@ void compFire(vector<vector<char>> *board)
         }
 
     }
+
+}
+
+bool shipsInit(vector<Ship*> *ships)
+{
+
+    bool init = true;
+
+    for(unsigned int i = 0; i < ships->size(); i++)
+    {
+        if(!ships->at(i)->getInited())
+	{
+	    init = false;
+	}
+    }
+
+
+    return init;
 
 }

@@ -25,5 +25,6 @@ void placeShipComp(vector<Ship*> *ships, int index, string location, bool rightL
 void fire(vector<vector<char>> *board, vector<Ship*> *ships, int row, int column);
 bool gameOver(vector<Ship*> *yourShips, vector<Ship*> *theirShips);
 void compFire(vector<vector<char>> *board);
+bool shipsInit(vector<Ship*> *ships);
 
 #endif /* SRC_BATTLESHIP_H_ */
