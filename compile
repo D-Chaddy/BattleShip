@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd src
+#Add all cpp files to use before -o
+g++ battleship.cpp Ship.cpp -o ../output/BattleShip
