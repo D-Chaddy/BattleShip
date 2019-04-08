@@ -83,7 +83,7 @@ void Ship::setLocation(int shipRow, int shipColumn, bool isLeftRight)
     inited = true;
 }
 
-vector<vector<int>> *Ship::getLocation()
+vector<vector<int>>* Ship::getLocation()
 {
     return &location;
 }

@@ -40,8 +40,6 @@ vector<Ship*> theirShips{&theirAircraftCarrier, &theirBattleShip, &theirSubmarin
 int main()
 {
 
-
-
     cout << "Select where to place your ships" << endl;
 
     while(!shipsInit(&yourShips))
@@ -54,7 +52,8 @@ int main()
 
         cin >> input;
 
-        if(cin.fail()){
+        if(cin.fail())
+        {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(),'\n');
         }
@@ -85,8 +84,6 @@ int main()
         {
             cout << endl << "NOT A VALID SHIP" << endl;
         }
-
-
 
     }
 
@@ -182,7 +179,7 @@ vector<int> getInput(string input)
     return temp;
 }
 
-void printBoard(vector<vector<char>> *board)
+void printBoard(vector<vector<char>>* board)
 {
 
     char rowLetters[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
@@ -214,7 +211,7 @@ void printBoard(vector<vector<char>> *board)
 
 }
 
-void printOptions(vector<Ship*> *ships)
+void printOptions(vector<Ship*>* ships)
 {
 
     for(unsigned int i = 0; i < ships->size(); i++)
@@ -226,7 +223,7 @@ void printOptions(vector<Ship*> *ships)
 
 }
 
-void fire(vector<vector<char>> *board, vector<Ship*> *ships, int row, int column)
+void fire(vector<vector<char>>* board, vector<Ship*>* ships, int row, int column)
 {
 
     bool hit = false;
@@ -264,7 +261,7 @@ void fire(vector<vector<char>> *board, vector<Ship*> *ships, int row, int column
 
 }
 
-void putValue(vector<vector<char>> *board, int row, int column, char value)
+void putValue(vector<vector<char>>* board, int row, int column, char value)
 {
     if(validInput(row, column))
     {
@@ -283,7 +280,7 @@ bool validInput(int row, int column)
     return (row < rows && row >= 0) &&  (column < columns && column >= 0);
 }
 
-void placeShip(vector<Ship*> *ships, int index)
+void placeShip(vector<Ship*>* ships, int index)
 {
     string locationTemp;
     bool rightLeftTemp;
@@ -323,7 +320,7 @@ void placeShip(vector<Ship*> *ships, int index)
 
 }
 
-void placeShipComp(vector<Ship*> *ships, int index, string location, bool rightLeft)
+void placeShipComp(vector<Ship*>* ships, int index, string location, bool rightLeft)
 {
 
     ships->at(index)->setLocation(getInput(location)[0], getInput(location)[1], rightLeft);
@@ -351,7 +348,7 @@ void placeShipComp(vector<Ship*> *ships, int index, string location, bool rightL
 
 }
 
-void printShips(vector<vector<char>> *board, vector<Ship*> *ships)
+void printShips(vector<vector<char>>* board, vector<Ship*>* ships)
 {
     for(unsigned int row = 0; row < rows; row++)
     {
@@ -373,7 +370,7 @@ void printShips(vector<vector<char>> *board, vector<Ship*> *ships)
     }
 }
 
-bool gameOver(vector<Ship*> *yourShips, vector<Ship*> *theirShips)
+bool gameOver(vector<Ship*>* yourShips, vector<Ship*>* theirShips)
 {
 
     bool youLose = true;
@@ -412,7 +409,7 @@ bool gameOver(vector<Ship*> *yourShips, vector<Ship*> *theirShips)
 
 }
 
-void compFire(vector<vector<char>> *board)
+void compFire(vector<vector<char>>* board)
 {
 
     string tempLocation = "";
@@ -443,7 +440,7 @@ void compFire(vector<vector<char>> *board)
 
 }
 
-bool shipsInit(vector<Ship*> *ships)
+bool shipsInit(vector<Ship*>* ships)
 {
 
     bool init = true;

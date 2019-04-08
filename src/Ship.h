@@ -30,7 +30,7 @@ public:
     Ship(string shipName, int shipLength);
     virtual ~Ship();
 
-    vector<vector<int>> *getLocation();
+    vector<vector<int>>* getLocation();
     void setLocation(int shipRow, int shipColumn, bool isLeftRight);
     string getName();
     int getLength();
